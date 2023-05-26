@@ -1,0 +1,3 @@
+#!/bin/sh
+
+jq -r '.root_token' /vault/file/init.json
