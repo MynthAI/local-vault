@@ -101,4 +101,5 @@ if [ "$1" = 'vault' ]; then
     fi
 fi
 
+vault-init.sh &
 exec "$@"

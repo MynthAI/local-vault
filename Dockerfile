@@ -72,7 +72,11 @@ EXPOSE 8200
 
 # Add our customizations
 RUN apk add --no-cache bash jq
+ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh \
+    /usr/local/bin/wait-for-it
+RUN chmod +x /usr/local/bin/wait-for-it
 COPY config.json /vault/config/local.json
+COPY init.sh /usr/local/bin/vault-init.sh
 ENV VAULT_ADDR http://127.0.0.1:8200
 
 # The entry point script uses dumb-init as the top-level process to reap any
