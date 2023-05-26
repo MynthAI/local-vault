@@ -70,6 +70,11 @@ VOLUME /vault/file
 # Vault.
 EXPOSE 8200
 
+# Add our customizations
+RUN apk add --no-cache bash jq
+COPY config.json /vault/config/local.json
+ENV VAULT_ADDR http://127.0.0.1:8200
+
 # The entry point script uses dumb-init as the top-level process to reap any
 # zombie processes created by Vault sub-processes.
 #
@@ -80,4 +85,4 @@ ENTRYPOINT ["docker-entrypoint.sh"]
 
 # By default you'll get a single-node development server that stores everything
 # in RAM and bootstraps itself. Don't use this configuration for production.
-CMD ["server", "-dev"]
+CMD ["server"]
