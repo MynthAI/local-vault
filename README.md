@@ -62,6 +62,15 @@ python3 -m venv ~/.vault-cli/venv
 sudo ln -s ~/.vault-cli/venv/bin/vault-cli /usr/local/bin
 ```
 
+Alternatively you can install vault-cli via Docker:
+
+``` bash
+docker create --name vault-cli quay.io/mynth/docker-vault-cli
+docker cp vault-cli:/usr/local/bin/vault-cli vault-cli
+sudo mv vault-cli /usr/local/bin/vault-cli
+docker rm vault-cli
+```
+
 Now you can save secrets into your local Vault instance using `vault-cli
 set`. For example, save a password using:
 
