@@ -52,24 +52,9 @@ docker exec vault vault secrets enable -path=my-app -version=1 kv
 
 [vault-cli](https://vault-cli.readthedocs.io/en/latest/) is a tool that
 offers simple interactions to manipulate secrets from Hashicorp Vault.
-You can install `vault-cli` using `pip` within a virtual environment
-using the following:
+You can install `vault-cli` by running the following:
 
-``` bash
-mkdir ~/.vault-cli
-python3 -m venv ~/.vault-cli/venv
-~/.vault-cli/venv/bin/pip install vault-cli
-sudo ln -s ~/.vault-cli/venv/bin/vault-cli /usr/local/bin
-```
-
-Alternatively you can install vault-cli via Docker:
-
-``` bash
-docker create --name vault-cli quay.io/mynth/docker-vault-cli
-docker cp vault-cli:/usr/local/bin/vault-cli vault-cli
-sudo mv vault-cli /usr/local/bin/vault-cli
-docker rm vault-cli
-```
+    curl -sSL https://raw.githubusercontent.com/MynthAI/local-vault/main/install-vault-cli.sh | bash
 
 Now you can save secrets into your local Vault instance using `vault-cli
 set`. For example, save a password using:
