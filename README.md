@@ -5,38 +5,15 @@ a local instance of Vault. The container runs a single Vault instance
 with persistent storage. Upon starting, Vault is automatically
 initialized and unsealed.
 
-## Usage
+## Installation
 
-To enable Vault to store persistent data, create a volume by running the
-following command:
+To activate Vault on your computer, execute the command below:
 
-``` bash
-docker volume create vault
-```
+    curl -sSL https://raw.githubusercontent.com/MynthAI/local-vault/main/install-vault.sh | bash
 
-To start Vault, run the following command:
-
-``` bash
-docker run --rm -d \
-  --name vault \
-  --cap-add=IPC_LOCK \
-  -v vault:/vault/file \
-  -p 8200:8200 quay.io/mynth/local-vault
-```
-
-To interact with Vault, you will need the root token. You can obtain the
-root token from the `token` command within the running container:
-
-``` bash
-docker exec vault token
-```
-
-To simplify things, you can extract the root token and store it in the
-`VAULT_CLI_TOKEN` environment variable. Here’s an example:
-
-``` bash
-echo "export VAULT_CLI_TOKEN=\"$(docker exec vault token)\"" >> ~/.bashrc
-```
+If you’re running this script for the first time, it will generate a
+Vault token. You should save this token to your shell environment, such
+as `~/.bashrc` or `~/.zshrc`.
 
 ### Enabling Secrets
 
@@ -51,27 +28,10 @@ docker exec vault vault secrets enable -path=my-app -version=1 kv
 ### Reading and Writing Secrets with vault-cli
 
 [vault-cli](https://vault-cli.readthedocs.io/en/latest/) is a tool that
-offers simple interactions to manipulate secrets from Hashicorp Vault.
-You can install `vault-cli` using `pip` within a virtual environment
-using the following:
+provides easy ways to handle secrets from Hashicorp Vault. It gets
+installed automatically when you follow the above instructions.
 
-``` bash
-mkdir ~/.vault-cli
-python3 -m venv ~/.vault-cli/venv
-~/.vault-cli/venv/bin/pip install vault-cli
-sudo ln -s ~/.vault-cli/venv/bin/vault-cli /usr/local/bin
-```
-
-Alternatively you can install vault-cli via Docker:
-
-``` bash
-docker create --name vault-cli quay.io/mynth/docker-vault-cli
-docker cp vault-cli:/usr/local/bin/vault-cli vault-cli
-sudo mv vault-cli /usr/local/bin/vault-cli
-docker rm vault-cli
-```
-
-Now you can save secrets into your local Vault instance using `vault-cli
+You can save secrets into your local Vault instance using `vault-cli
 set`. For example, save a password using:
 
 ``` bash
