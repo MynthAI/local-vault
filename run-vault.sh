@@ -15,7 +15,7 @@ function wait_for_vault() {
   done
 }
 
-docker pull quay.io/mynth/local-vault:latest
+docker pull quay.io/mynth/local-vault:latest 2>/dev/null
 docker volume create vault > /dev/null
 docker stop vault > /dev/null 2>&1 || true
 docker rm vault > /dev/null 2>&1 || true
