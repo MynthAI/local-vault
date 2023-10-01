@@ -7,6 +7,7 @@ if ! command -v docker &> /dev/null; then
     exit 1
 fi
 
+docker pull quay.io/mynth/docker-vault-cli:latest 2>/dev/null
 docker create --name vault-cli \
     quay.io/mynth/docker-vault-cli > /dev/null
 docker cp \
