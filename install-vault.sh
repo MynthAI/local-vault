@@ -8,24 +8,17 @@ if ! command -v docker &> /dev/null; then
 fi
 
 function install_vault_cli() {
-    echo "Downloading latest vault-cli image"
-    docker pull quay.io/mynth/docker-vault-cli:latest 2>/dev/null
-    docker create --name vault-cli \
-        quay.io/mynth/docker-vault-cli > /dev/null
-    docker cp \
-        vault-cli:/usr/local/bin/vault-cli vault-cli > /dev/null
-    docker rm vault-cli > /dev/null
+    VENV_DIR="$HOME/.virtualenvs/vault-cli"
+    python3 -m venv "$VENV_DIR"
+    source "$VENV_DIR/bin/activate"
+    pip install vault-cli
 
-    mkdir -p "$HOME/.local/bin"
-    mv vault-cli "$HOME/.local/bin"
-
-    if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
-        echo "Your PATH does not include ~/.local/bin. Please add it to your PATH."
-        exit 1
+    if vault-cli --version; then
+        sudo ln -sf $(which vault-cli) /usr/local/bin/vault-cli
+        echo "vault-cli installed and linked"
+    else
+        echo "vault-cli installation failed" && exit 1
     fi
-
-    vault-cli --version
-    echo "Successfully installed vault-cli"
 }
 
 function wait_for_vault() {
