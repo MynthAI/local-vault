@@ -17,7 +17,8 @@ function install_vault_cli() {
         sudo ln -sf $(which vault-cli) /usr/local/bin/vault-cli
         echo "vault-cli installed and linked"
     else
-        echo "vault-cli installation failed" && exit 1
+        echo "vault-cli installation failed"
+        exit 1
     fi
 }
 
